@@ -19,12 +19,35 @@ struct CreateWorkoutView: View {
                     .textFieldStyle(.roundedBorder)
             }
             .padding()
-
+            
+            HStack(spacing: 20) {
+                Text("Date  :")
+                DatePicker("", selection: $viewModel.date)
+                Spacer()
+            }
+            .padding()
+            
+            NavigationView {
+                HStack {
+                    NavigationLink(destination: CreateExerciseView()) {
+                        Text("Add Exercise")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 30)
+                            .background(.blue)
+                            .cornerRadius(.infinity)
+                            .padding()
+                    }
+                    
+                }
+            }
+            
             HStack {
                 Button(action: {
-                    viewModel.onAddButtonClick()
+                    viewModel.onSaveButtonClick()
                 }) {
-                    Text("Add")
+                    Text("Save")
                         .foregroundColor(.white)
                         .font(.headline)
                         .padding(.vertical, 10)

@@ -33,6 +33,10 @@ struct GymBuddyApp: App {
                     return AnyView(
                         WorkoutDetailView(viewModel: WorkoutDetailViewModel(id: id, pilot: pilot))
                     )
+                case .CreateExercise:
+                    return AnyView(
+                        CreateExerciseView()
+                    )
                 }
             }
         }
@@ -45,4 +49,5 @@ enum AppRoute: Equatable {
     case List
     case Insert
     case Detail(id: Int64)
+    case CreateExercise
 }

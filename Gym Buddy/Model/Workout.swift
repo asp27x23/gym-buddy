@@ -10,5 +10,6 @@ import SwiftUI
 struct Workout {
     let id: Int64
     var name: String
+    var date: Date
     @State var exercises = [Exercise]()
 }

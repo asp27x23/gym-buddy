@@ -14,6 +14,7 @@ class WorkoutDetailViewModel: ObservableObject {
     var workout: Workout?
 
     @Published var workoutName: String = ""
+    @Published var date: Date = Date()
 
     private let appPilot: UIPilot<AppRoute>
 
@@ -26,10 +27,11 @@ class WorkoutDetailViewModel: ObservableObject {
     func getWorkout() {
         workout = WorkoutDataStore.shared.findWorkouts(workoutId: id)
         workoutName = workout?.name ?? ""
+        date = workout?.date ?? Date()
     }
 
     func onUpdateClick() {
-        let statusUpdated = WorkoutDataStore.shared.update(id: id, name: workoutName)
+        let statusUpdated = WorkoutDataStore.shared.update(id: id, name: workoutName, date: date)
         if statusUpdated {
             appPilot.pop()
         }

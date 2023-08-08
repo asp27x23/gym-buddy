@@ -18,6 +18,12 @@ struct WorkoutDetailView: View {
                 TextField("Workout Name", text: $viewModel.workoutName)
                     .textFieldStyle(.roundedBorder)
             }
+            
+            HStack(spacing: 20) {
+                Text("Date :")
+                DatePicker("", selection: $viewModel.date)
+                Spacer()
+            }
 
             HStack {
                 Button(action: {
