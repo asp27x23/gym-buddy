@@ -16,24 +16,17 @@ class CreateExerciseViewModel: ObservableObject {
     @Published var reps: Int64 = 0
     @Published var weight: Int64 = 0
 
-    private let appPilot: UIPilot<AppRoute>
+    let appPilot: UIPilot<AppRoute>
 
-    init(pilot: UIPilot<AppRoute>) {
+    init(id: Int64, pilot: UIPilot<AppRoute>) {
         self.appPilot = pilot
+        self.workoutId = id
     }
 
     func onSaveButtonClick() {
+        print("try to save exercise: ", exerciseName, workoutId)
         if exerciseName != "" {
-            let id = ExerciseDataStore.shared.insert(exerciseName: exerciseName, sets: sets, reps: reps, weight: weight)
-            if id != nil {
-                appPilot.pop()
-            }
-        }
-    }
-    
-    func onAddExerciseButtonClick() {
-        if exerciseName != "" {
-            let id = ExerciseDataStore.shared.insert(exerciseName: exerciseName, sets: sets, reps: reps, weight: weight)
+            let id = ExerciseDataStore.shared.insert(workoutId: workoutId, exerciseName: exerciseName, sets: sets, reps: reps, weight: weight)
             if id != nil {
                 appPilot.pop()
             }

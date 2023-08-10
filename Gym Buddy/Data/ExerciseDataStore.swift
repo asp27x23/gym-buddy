@@ -15,6 +15,7 @@ class ExerciseDataStore {
     private let exercises = Table("exercises")
 
     private let id = Expression<Int64>("id")
+    private let workoutId = Expression<Int64>("workoutId")
     private let exerciseName = Expression<String>("exerciseName")
     private let sets = Expression<Int64>("sets")
     private let reps = Expression<Int64>("reps")
@@ -50,6 +51,7 @@ class ExerciseDataStore {
         do {
             try database.run(exercises.create { table in
                 table.column(id, primaryKey: .autoincrement)
+                table.column(workoutId)
                 table.column(exerciseName)
                 table.column(sets)
                 table.column(reps)
@@ -61,10 +63,11 @@ class ExerciseDataStore {
         }
     }
     
-    func insert(exerciseName: String, sets: Int64, reps: Int64, weight: Int64) -> Int64?{
+    func insert(workoutId: Int64, exerciseName: String, sets: Int64, reps: Int64, weight: Int64) -> Int64?{
         guard let database = db else { return nil }
 
         let insert = exercises.insert(
+              self.workoutId <- workoutId,
               self.exerciseName <- exerciseName,
               self.sets <- sets,
               self.reps <- reps,
@@ -79,15 +82,15 @@ class ExerciseDataStore {
             return nil
         }
     }
-
     
-    func getExercises() -> [Exercise] {
+    func getExercises(wId: Int64) -> [Exercise] {
         var exercises: [Exercise] = []
         guard let database = db else { return [] }
 
+        let filter = self.exercises.filter(workoutId == wId)
         do {
-            for exercise in try database.prepare(self.exercises) {
-                exercises.append(Exercise(id: exercise[id], exerciseName: exercise[exerciseName], sets: exercise[sets], reps: exercise[reps], weight: exercise[weight]))
+            for exercise in try database.prepare(filter) {
+                exercises.append(Exercise(id: exercise[id], workoutId: exercise[workoutId], exerciseName: exercise[exerciseName], sets: exercise[sets], reps: exercise[reps], weight: exercise[weight]))
             }
         } catch {
             print(error)
@@ -95,8 +98,8 @@ class ExerciseDataStore {
         return exercises
     }
     
-    func findExercise(exerciseId: Int64) -> Exercise? {
-        var exercise: Exercise = Exercise(id: exerciseId, exerciseName: "", sets: 0, reps: 0, weight: 0)
+    func findExercise(exerciseId: Int64, workoutId: Int64) -> Exercise? {
+        var exercise: Exercise = Exercise(id: exerciseId, workoutId: workoutId, exerciseName: "", sets: 0, reps: 0, weight: 0)
         guard let database = db else { return nil }
 
         let filter = self.exercises.filter(id == exerciseId)
@@ -126,5 +129,25 @@ class ExerciseDataStore {
             print(error)
             return false
         }
+    }
+    
+    func update(id: Int64, exerciseName: String, sets: Int64, reps: Int64, weight: Int64) -> Bool {
+        guard let database = db else { return false }
+
+        let exercise = exercises.filter(self.id == id)
+        do {
+            let update = exercise.update([
+                self.exerciseName <- exerciseName,
+                self.sets <- sets,
+                self.reps <- reps,
+                self.weight <- weight
+            ])
+            if try database.run(update) > 0 {
+                return true
+            }
+        } catch {
+            print(error)
+        }
+        return false
     }
 }

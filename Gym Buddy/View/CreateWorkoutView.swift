@@ -27,22 +27,6 @@ struct CreateWorkoutView: View {
             }
             .padding()
             
-            NavigationView {
-                HStack {
-                    NavigationLink(destination: CreateExerciseView()) {
-                        Text("Add Exercise")
-                            .foregroundColor(.white)
-                            .font(.headline)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 30)
-                            .background(.blue)
-                            .cornerRadius(.infinity)
-                            .padding()
-                    }
-                    
-                }
-            }
-            
             HStack {
                 Button(action: {
                     viewModel.onSaveButtonClick()

@@ -15,8 +15,13 @@ class WorkoutDetailViewModel: ObservableObject {
 
     @Published var workoutName: String = ""
     @Published var date: Date = Date()
+    @Published var allExercises: [Exercise] = []
+    @Published var exerciseName: String = ""
+    @Published var sets: Int64 = 0
+    @Published var reps: Int64 = 0
+    @Published var weight: Int64 = 0
 
-    private let appPilot: UIPilot<AppRoute>
+    let appPilot: UIPilot<AppRoute>
 
     init(id: Int64, pilot: UIPilot<AppRoute>) {
         self.id = id
@@ -35,5 +40,19 @@ class WorkoutDetailViewModel: ObservableObject {
         if statusUpdated {
             appPilot.pop()
         }
+    }
+    
+    func deleteExercise(at indexSet: IndexSet) {
+        let id = indexSet.map { self.allExercises[$0].id }.first
+        if let id = id {
+            let delete = ExerciseDataStore.shared.delete(id: id)
+            if delete {
+                getExerciseList()
+            }
+        }
+    }
+    
+    func getExerciseList() {
+        allExercises = ExerciseDataStore.shared.getExercises(wId: id)
     }
 }

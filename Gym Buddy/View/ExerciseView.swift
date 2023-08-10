@@ -9,6 +9,7 @@ import Foundation
 
 class ExerciseView: ObservableObject {
 
+    @Published var workoutId: Int64 = 0
     @Published var exerciseName: String = ""
     @Published var sets: Int64 = 0
     @Published var reps: Int64 = 0
@@ -16,7 +17,7 @@ class ExerciseView: ObservableObject {
 
     func onAddButtonClick() {
         if exerciseName != "" {
-            let id = ExerciseDataStore.shared.insert(exerciseName: exerciseName, sets: sets, reps: reps, weight: weight)
+            let id = ExerciseDataStore.shared.insert(workoutId: workoutId, exerciseName: exerciseName, sets: sets, reps: reps, weight: weight)
             if id != nil {
                 print("insert ", {id})
             }
