@@ -24,7 +24,7 @@ class CreateExerciseViewModel: ObservableObject {
     }
 
     func onSaveButtonClick() {
-        print("try to save exercise: ", exerciseName, workoutId)
+        print("try to save exercise: ", exerciseName, workoutId, exerciseName, sets, reps, weight)
         if exerciseName != "" {
             let id = ExerciseDataStore.shared.insert(workoutId: workoutId, exerciseName: exerciseName, sets: sets, reps: reps, weight: weight)
             if id != nil {

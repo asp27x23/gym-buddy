@@ -20,26 +20,25 @@ struct ExerciseDetailView: View {
             }
             HStack(spacing: 20) {
                 Text("Sets")
-                Picker("Sets", selection: $viewModel.sets) {
-                    ForEach(1...10, id: \.self) { sets in
-                        Text("\(sets)")
-                    }
-                }
+                TextField("Sets", value: $viewModel.sets, format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
+                    .padding()
             }
             
             HStack(spacing: 20) {
                 Text("Reps")
-                Picker("Reps", selection: $viewModel.reps) {
-                    ForEach(1...25, id: \.self) { reps in
-                        Text("\(reps)")
-                    }
-                }
+                TextField("Reps", value: $viewModel.reps, format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
+                    .padding()
             }
             
             HStack(spacing: 20) {
                 Text("Weight")
                 TextField("Weight", value: $viewModel.weight, format: .number)
                     .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
                     .padding()
             }
 

@@ -11,7 +11,6 @@ struct WorkoutDetailView: View {
 
     @ObservedObject var viewModel: WorkoutDetailViewModel
     @ObservedObject var viewExerciseModel: CreateExerciseViewModel
-    @State var exercises = ExerciseDataStore.shared.getExercises(wId: 0) // TODO: need to determine the workout id dynamically
 
     var body: some View {
         VStack(spacing: 20) {
@@ -30,7 +29,7 @@ struct WorkoutDetailView: View {
             HStack(spacing: 20) {
                 List {
                     Section {
-                        ForEach(exercises, id: \.id) { exercise in
+                        ForEach(viewModel.allExercises, id: \.id) { exercise in
                             Text(exercise.exerciseName)
                                 .onTapGesture {
                                     viewModel.appPilot.push(.ExerciseDetail(id: exercise.id, workoutId: exercise.workoutId))
@@ -70,6 +69,9 @@ struct WorkoutDetailView: View {
                 .padding()
             }
             Spacer()
+        }
+        .onAppear {
+            viewModel.getExerciseList()
         }
         .padding(.horizontal)
     }

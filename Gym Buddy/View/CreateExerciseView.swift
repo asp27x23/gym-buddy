@@ -16,54 +16,53 @@ struct CreateExerciseView: View {
     @State private var weight: Int = 1
 
     var body: some View {
-        VStack {
-            HStack(spacing: 20) {
-                Text("Exercise Name : ")
-                TextField("Exercise Name", text: $viewExerciseModel.exerciseName)
-                    .textFieldStyle(.roundedBorder)
-            }
-            
-            HStack(spacing: 20) {
-                Text("Sets")
-                Picker("Sets", selection: $viewExerciseModel.sets) {
-                    ForEach(1...10, id: \.self) { sets in
-                        Text("\(sets)")
-                    }
+            VStack {
+                HStack(spacing: 20) {
+                    Text("Exercise Name : ")
+                    TextField("Exercise Name", text: $viewExerciseModel.exerciseName)
+                        .textFieldStyle(.roundedBorder)
                 }
-            }
-            
-            HStack(spacing: 20) {
-                Text("Reps")
-                Picker("Reps", selection: $viewExerciseModel.reps) {
-                    ForEach(1...25, id: \.self) { reps in
-                        Text("\(reps)")
-                    }
+                
+                HStack(spacing: 20) {
+                    Text("Sets")
+                    TextField("Sets", value: $viewExerciseModel.sets, format: .number)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.numberPad)
+                        .padding()
                 }
-            }
-            
-            HStack(spacing: 20) {
-                Text("Weight")
-                TextField("Weight", value: $viewExerciseModel.weight, format: .number)
-                    .textFieldStyle(.roundedBorder)
+                
+                HStack(spacing: 20) {
+                    Text("Reps")
+                    TextField("Reps", value: $viewExerciseModel.reps, format: .number)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.numberPad)
+                        .padding()
+                }
+                
+                HStack(spacing: 20) {
+                    Text("Weight")
+                    TextField("Weight", value: $viewExerciseModel.weight, format: .number)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.numberPad)
+                        .padding()
+                }
+                
+                HStack {
+                    Button(action: {
+                        viewExerciseModel.onSaveButtonClick()
+                    }) {
+                        Text("Save")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 30)
+                    }
+                    .background(.blue)
+                    .cornerRadius(.infinity)
                     .padding()
-            }
-            
-            HStack {
-                Button(action: {
-                    viewExerciseModel.onSaveButtonClick()
-                }) {
-                    Text("Save")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 30)
                 }
-                .background(.blue)
-                .cornerRadius(.infinity)
-                .padding()
+                Spacer()
             }
-            Spacer()
-        }
     }
 
 }
