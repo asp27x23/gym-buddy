@@ -14,7 +14,7 @@ struct CreateWorkoutView: View {
     var body: some View {
         VStack {
             HStack(spacing: 20) {
-                Text("Workout Name : ")
+                Text("Workout Name: ")
                 TextField("Workout Name", text: $viewModel.workoutName)
                     .textFieldStyle(.roundedBorder)
             }
@@ -24,6 +24,13 @@ struct CreateWorkoutView: View {
                 Text("Date  :")
                 DatePicker("", selection: $viewModel.date)
                 Spacer()
+            }
+            .padding()
+            
+            HStack(spacing: 20) {
+                Text("Notes: ")
+                TextField("Notes", text: $viewModel.notes)
+                    .textFieldStyle(.roundedBorder)
             }
             .padding()
             

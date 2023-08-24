@@ -18,6 +18,7 @@ class ExerciseDetailViewModel: ObservableObject {
     @Published var sets: Int64 = 0
     @Published var reps: Int64 = 0
     @Published var weight: Int64 = 0
+    @Published var notes: String = ""
 
     let appPilot: UIPilot<AppRoute>
 
@@ -37,7 +38,7 @@ class ExerciseDetailViewModel: ObservableObject {
     }
 
     func onUpdateClick() {
-        let statusUpdated = ExerciseDataStore.shared.update(id: id, exerciseName: exerciseName, sets: sets, reps: reps, weight: weight)
+        let statusUpdated = ExerciseDataStore.shared.update(id: id, exerciseName: exerciseName, sets: sets, reps: reps, weight: weight, notes: notes)
         if statusUpdated {
             appPilot.pop()
         }

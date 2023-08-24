@@ -18,7 +18,7 @@ struct CreateExerciseView: View {
     var body: some View {
             VStack {
                 HStack(spacing: 20) {
-                    Text("Exercise Name : ")
+                    Text("Exercise Name: ")
                     TextField("Exercise Name", text: $viewExerciseModel.exerciseName)
                         .textFieldStyle(.roundedBorder)
                 }
@@ -45,6 +45,12 @@ struct CreateExerciseView: View {
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .padding()
+                }
+                
+                HStack(spacing: 20) {
+                    Text("Notes: ")
+                    TextField("Notes", text: $viewExerciseModel.notes)
+                        .textFieldStyle(.roundedBorder)
                 }
                 
                 HStack {

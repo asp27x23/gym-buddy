@@ -18,6 +18,7 @@ class WorkoutDataStore {
     private let id = Expression<Int64>("id")
     private let workoutName = Expression<String>("workoutName")
     private let date = Expression<Date>("date")
+    private let notes = Expression<String>("notes")
 
     static let shared = WorkoutDataStore()
 
@@ -51,6 +52,7 @@ class WorkoutDataStore {
                 table.column(id, primaryKey: .autoincrement)
                 table.column(workoutName)
                 table.column(date)
+                table.column(notes)
             })
             print("Table Created...")
         } catch {
@@ -58,10 +60,10 @@ class WorkoutDataStore {
         }
     }
 
-    func insert(name: String, date: Date) -> Int64? {
+    func insert(name: String, date: Date, notes: String) -> Int64? {
         guard let database = db else { return nil }
 
-        let insert = workouts.insert(self.workoutName <- name, self.date <- date)
+        let insert = workouts.insert(self.workoutName <- name, self.date <- date, self.notes <- notes)
 
         do {
             let rowID = try database.run(insert)
@@ -78,7 +80,7 @@ class WorkoutDataStore {
 
         do {
             for workout in try database.prepare(self.workouts) {
-                workouts.append(Workout(id: workout[id], name: workout[workoutName], date: workout[date]))
+                workouts.append(Workout(id: workout[id], name: workout[workoutName], date: workout[date], notes: workout[notes]))
             }
         } catch {
             print(error)
@@ -88,7 +90,7 @@ class WorkoutDataStore {
 
 
     func findWorkouts(workoutId: Int64) -> Workout? {
-        var workout: Workout = Workout(id: workoutId, name: "", date: Date())
+        var workout: Workout = Workout(id: workoutId, name: "", date: Date(), notes: "")
         guard let database = db else { return nil }
 
         let filter = self.workouts.filter(id == workoutId)
@@ -96,6 +98,8 @@ class WorkoutDataStore {
             for t in try database.prepare(filter) {
                 workout.name = t[workoutName]
                 workout.date = t[date]
+                workout.notes = t[notes]
+                
             }
         } catch {
             print(error)
@@ -103,14 +107,15 @@ class WorkoutDataStore {
         return workout
     }
 
-    func update(id: Int64, name: String, date: Date = Date()) -> Bool {
+    func update(id: Int64, name: String, date: Date = Date(), notes: String) -> Bool {
         guard let database = db else { return false }
 
         let workout = workouts.filter(self.id == id)
         do {
             let update = workout.update([
                 workoutName <- name,
-                self.date <- date
+                self.date <- date,
+                self.notes <- notes
             ])
             if try database.run(update) > 0 {
                 return true

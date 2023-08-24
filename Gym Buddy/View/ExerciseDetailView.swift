@@ -41,6 +41,12 @@ struct ExerciseDetailView: View {
                     .keyboardType(.numberPad)
                     .padding()
             }
+            
+            HStack(spacing: 20) {
+                Text("Notes: ")
+                TextField("Notes", text: $viewModel.notes)
+                    .textFieldStyle(.roundedBorder)
+            }
 
             HStack {
                 Button(action: {

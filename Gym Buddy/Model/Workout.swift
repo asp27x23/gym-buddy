@@ -11,5 +11,6 @@ struct Workout {
     let id: Int64
     var name: String
     var date: Date
+    var notes: String
     @State var exercises = [Exercise]()
 }

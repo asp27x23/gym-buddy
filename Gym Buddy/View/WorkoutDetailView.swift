@@ -27,6 +27,12 @@ struct WorkoutDetailView: View {
             }
             
             HStack(spacing: 20) {
+                Text("Notes: ")
+                TextField("Notes", text: $viewModel.notes)
+                    .textFieldStyle(.roundedBorder)
+            }
+            
+            HStack(spacing: 20) {
                 List {
                     Section {
                         ForEach(viewModel.allExercises, id: \.id) { exercise in

@@ -14,12 +14,6 @@ struct Exercise: Identifiable {
     var sets: Int64
     var reps: Int64
     var weight: Int64
-    
-    static func preview() -> [Exercise] {
-        return [Exercise(id: 1, workoutId: 1, exerciseName: "flat bench", sets: 3, reps: 10, weight: 135),
-                    Exercise(id: 2, workoutId: 1, exerciseName: "incline bench", sets: 3, reps: 10, weight: 120),
-                    Exercise(id: 3, workoutId: 1, exerciseName: "chest flies", sets: 3, reps: 10, weight: 30)
-            ]
-        }
+    var notes: String
 }
 

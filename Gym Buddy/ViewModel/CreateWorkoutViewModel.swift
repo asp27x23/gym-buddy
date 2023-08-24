@@ -12,6 +12,7 @@ class CreateWorkoutViewModel: ObservableObject {
 
     @Published var workoutName: String = ""
     @Published var date: Date = Date()
+    @Published var notes: String = ""
     
     let appPilot: UIPilot<AppRoute>
 
@@ -21,7 +22,7 @@ class CreateWorkoutViewModel: ObservableObject {
 
     func onSaveButtonClick() {
         if workoutName != "" {
-            let id = WorkoutDataStore.shared.insert(name: workoutName, date: date)
+            let id = WorkoutDataStore.shared.insert(name: workoutName, date: date, notes: notes)
             if id != nil {
                 appPilot.pop()
             }
